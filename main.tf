@@ -1,3 +1,7 @@
+provider "azurerm" {
+  features {}
+}
+
 locals {
   default_tags = {
     scope = "Terraform"
@@ -9,13 +13,6 @@ resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.location
   tags     = local.all_tags
-}
-
-resource "azurerm_management_lock" "rg_lock" {
-  name       = "${var.resource_group_name}-lock"
-  count      = var.create_lock ? 1 : 0
-  scope      = azurerm_resource_group.rg.id
-  lock_level = "CanNotDelete"
 }
 
 resource "azurerm_storage_account" "sa_tf_state" {
